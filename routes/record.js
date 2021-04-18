@@ -28,6 +28,22 @@ route.get('/', (req, res) => {
     })
 })
 
+route.get('/total', (req, res) => {
+  Record.find({})
+    .populate('cid')
+    .exec(function(err, records) {
+      if (err) {
+        console.log('11', err)
+      } else {
+        let balance = 0
+        records.forEach(record => {
+          balance = balance + (record.cid.type === 'expense' ? (-record.price) : record.price)
+        })
+        res.send({balance})
+      }
+    })
+})
+
 route.post('/', (req, res) => {
   const record = new Record({ ...req.body })
   record.save(function(err) {
