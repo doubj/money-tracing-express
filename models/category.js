@@ -11,6 +11,9 @@ const CategorySchema = new Schema(
   }
 );
 
+/**
+ * 使用id代理_id
+ */
 CategorySchema.options.toJSON = {
   transform(doc, ret, options) {
     virtuals: true,

@@ -12,6 +12,9 @@ const RecordSchema = new Schema(
   }
 );
 
+/**
+ * 使用id代理_id
+ */
 RecordSchema.options.toJSON = {
   transform(doc, ret, options) {
     virtuals: true,
