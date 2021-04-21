@@ -3,12 +3,43 @@ const Record = require(`${process.cwd()}/models/record`);
 
 var route = express.Router()
 
+const resetRequestQuery = function(query) {
+  // 1. 初始化pageInfo
+  const pageInfo = {
+    page: 1,
+    limit: 300000,
+    where: {},
+    order: {}
+  }
+  const compareArray = ['$gte', '$gt', '$lte', '$lt']
+  const pageArray = ['page', 'limit']
+  Object.keys(query).forEach(key => {
+    const value = query[key]
+    if (key.indexOf('_') !== -1) {
+      // key中包含_
+      const actualKey = key.split('_')[0]
+      const operator = key.split('_')[1]
+      if (compareArray.indexOf(operator) !== -1) {
+        // 1. 判断范围
+        if (!pageInfo.where[actualKey]) {
+          pageInfo.where[actualKey] = {}
+        }
+        pageInfo.where[actualKey][operator] = value
+      }
+      if (pageArray.indexOf(operator) !== -1) {
+        pageInfo[operator] = +value
+      }
+    }
+  })
+  return pageInfo
+}
+
 route.get('/', async (req, res) => {
-  const pageIndex = req.params._page || 1
-  const pageSize = req.params._limit || 300000
-  const list = await Record.find({})
-    .skip((pageIndex - 1) * pageSize)
-    .limit(pageSize)
+  const { where, page, limit } = resetRequestQuery(req.query)
+  const list = await Record
+    .find(where)
+    .skip((page - 1) * limit)
+    .limit(limit)
     .sort('-timestamp')
     .exec()
   const total = await Record.countDocuments({})
