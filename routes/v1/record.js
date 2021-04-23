@@ -19,6 +19,10 @@ const resetRequestQuery = function(query) {
       // key中包含_
       const actualKey = key.split('_')[0]
       const operator = key.split('_')[1]
+      if (operator === 'like') {
+        // 如果是模糊查找
+        pageInfo.where[actualKey] = new RegExp(value)
+      }
       if (compareArray.indexOf(operator) !== -1) {
         // 1. 判断范围
         if (!pageInfo.where[actualKey]) {
@@ -27,6 +31,7 @@ const resetRequestQuery = function(query) {
         pageInfo.where[actualKey][operator] = value
       }
       if (pageArray.indexOf(operator) !== -1) {
+        // 分页相关：约定为_page=1,_limit=10
         pageInfo[operator] = +value
       }
     }
@@ -42,7 +47,7 @@ route.get('/', async (req, res) => {
     .limit(limit)
     .sort('-timestamp')
     .exec()
-  const total = await Record.countDocuments({})
+  const total = await Record.countDocuments(where)
   res.send({list, total})
 })
 
