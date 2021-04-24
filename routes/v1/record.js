@@ -34,6 +34,8 @@ const resetRequestQuery = function(query) {
         // 分页相关：约定为_page=1,_limit=10
         pageInfo[operator] = +value
       }
+    } else {
+      pageInfo.where[key] = value
     }
   })
   return pageInfo
