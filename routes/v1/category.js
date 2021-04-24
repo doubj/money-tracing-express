@@ -1,11 +1,11 @@
-const express = require('express')
+const express = require("express");
 const Category = require(`${process.cwd()}/models/category`);
 
-var route = express.Router()
+var route = express.Router();
 
-route.get('/', async (req, res) => {
-  const categories = await Category.find({})
-  res.send({ list: categories })
-})
+route.get("/", async (req, res) => {
+  const categories = await Category.find({});
+  res.send({ list: categories });
+});
 
-module.exports = route
+module.exports = route;
