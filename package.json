@@ -5,7 +5,9 @@
   "main": "3005",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "set PORT=3005 & nodemon app.js",
+    "prod": "set PORT=3010 & forever start app.js &"
   },
   "author": "doubj",
   "license": "ISC",
