@@ -62,6 +62,15 @@ route.get("/total", async (req, res) => {
   res.send({ balance });
 });
 
+route.get("/description", async (req, res) => {
+  const { where, limit } = resetRequestQuery(req.query);
+  const list = await Record.find(where, 'description cid')
+    .limit(limit)
+    .sort("-date")
+    .exec();
+  res.send(list);
+});
+
 route.post("/", async (req, res) => {
   const record = new Record({ ...req.body });
   const recordNew = await record.save();
