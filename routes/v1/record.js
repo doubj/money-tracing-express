@@ -1,48 +1,11 @@
 const express = require("express");
 const Record = require(`${process.cwd()}/models/record`);
+const Utils = require(`${process.cwd()}/utils`)
 
 var route = express.Router();
 
-const resetRequestQuery = function (query) {
-  // 1. 初始化pageInfo
-  const pageInfo = {
-    page: 1,
-    limit: 300000,
-    where: {},
-    order: {},
-  };
-  const compareArray = ["$gte", "$gt", "$lte", "$lt"];
-  const pageArray = ["page", "limit"];
-  Object.keys(query).forEach((key) => {
-    const value = query[key];
-    if (key.indexOf("_") !== -1) {
-      // key中包含_
-      const actualKey = key.split("_")[0];
-      const operator = key.split("_")[1];
-      if (operator === "like") {
-        // 如果是模糊查找
-        pageInfo.where[actualKey] = new RegExp(value);
-      }
-      if (compareArray.indexOf(operator) !== -1) {
-        // 1. 判断范围
-        if (!pageInfo.where[actualKey]) {
-          pageInfo.where[actualKey] = {};
-        }
-        pageInfo.where[actualKey][operator] = value;
-      }
-      if (pageArray.indexOf(operator) !== -1) {
-        // 分页相关：约定为_page=1,_limit=10
-        pageInfo[operator] = +value;
-      }
-    } else {
-      pageInfo.where[key] = value;
-    }
-  });
-  return pageInfo;
-};
-
 route.get("/", async (req, res) => {
-  const { where, page, limit } = resetRequestQuery(req.query);
+  const { where, page, limit } = Utils.resetRequestQuery(req.query);
   const list = await Record.find(where)
     .skip((page - 1) * limit)
     .limit(limit)
@@ -63,7 +26,7 @@ route.get("/total", async (req, res) => {
 });
 
 route.get("/description", async (req, res) => {
-  const { where, limit } = resetRequestQuery(req.query);
+  const { where, limit } = Utils.resetRequestQuery(req.query);
   const list = await Record.find(where, 'description cid')
     .limit(limit)
     .sort("-date")
@@ -79,8 +42,7 @@ route.post("/", async (req, res) => {
 
 route.put("/:id", async (req, res) => {
   await Record.findByIdAndUpdate(req.params.id, {
-    ...req.body,
-    category: req.body.cid,
+    ...req.body
   });
   res.status(204).send();
 });
