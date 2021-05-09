@@ -20,9 +20,9 @@
 1. 代码细节完善
 
 ## 3. bug
-1. query结果有时候会被吞单条
+1. ~~query结果有时候会被吞单条~~ 5.9
 
 # END
 
-​	Thanks 
+​	Thanks
 

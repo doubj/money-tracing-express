@@ -9,7 +9,7 @@ route.get("/", async (req, res) => {
   const list = await Record.find(where)
     .skip((page - 1) * limit)
     .limit(limit)
-    .sort("-date")
+    .sort("-date -timestamp")
     .exec();
   const total = await Record.countDocuments(where);
   res.send({ list, total });
