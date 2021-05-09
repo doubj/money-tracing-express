@@ -30,7 +30,7 @@ route.put("/:id", async (req, res) => {
 
 route.delete("/:id", async (req, res) => {
   const id = req.params.id;
-  await Record.deleteMany({ _id: { $in: id } });
+  await Template.deleteMany({ _id: { $in: id } });
   res.status(204).send();
 });
 
