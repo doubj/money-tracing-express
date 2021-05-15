@@ -5,6 +5,7 @@ class InitManager {
     InitManager.initCors();
     InitManager.initMongoose();
     InitManager.initRoutes();
+    InitManager.initCategories();
   }
 
   /**
@@ -44,7 +45,9 @@ class InitManager {
   static initMongoose() {
     const mongoose = require("mongoose");
     mongoose.set("useFindAndModify", false);
-    const mongoDB = "mongodb://127.0.0.1/money_tracing";
+    // const IP = "42.192.49.233"
+    const IP = "localhost"
+    const mongoDB = `mongodb://${IP}/money_tracing`;
     mongoose.connect(mongoDB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -52,6 +55,20 @@ class InitManager {
     mongoose.Promise = global.Promise;
     const db = mongoose.connection;
     db.on("error", console.error.bind(console, "MongoDB 连接错误："));
+  }
+
+  static async initCategories() {
+    const Category = require(`${process.cwd()}/models/category`);
+    const categories = await Category.find({});
+    if (categories.length === 0) {
+      const categoryJson = require(`${process.cwd()}/db/categories.json`)
+      if (categoryJson && categoryJson.RECORDS && categoryJson.RECORDS.length > 0) {
+        categoryJson.RECORDS.forEach(_category => {
+          const category = new Category({ ..._category })
+          category.save()
+        })
+      }
+    }
   }
 }
 

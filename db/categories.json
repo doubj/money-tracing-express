@@ -1,0 +1,52 @@
+{
+  "RECORDS": [
+    {
+      "_id": "acec6e8688dd4afcaaf00652",
+      "icon": "icon-food",
+      "name": "餐饮",
+      "type": "expense"
+    },
+    {
+      "_id": "93457abfb1954f2da9d69fef",
+      "icon": "icon-Bus",
+      "name": "日常出行",
+      "type": "expense"
+    },
+    {
+      "_id": "8c6a5c330ab64b8c8c4266f7",
+      "icon": "icon-Drink",
+      "name": "零食饮料",
+      "type": "expense"
+    },
+    {
+      "_id": "b16c67ac19354c0eb4f5697b",
+      "icon": "icon-zhifu",
+      "name": "其他",
+      "type": "expense"
+    },
+    {
+      "_id": "0597daea28c74e0fb709dc25",
+      "icon": "icon-phone",
+      "name": "手机充值",
+      "type": "expense"
+    },
+    {
+      "_id": "fff77ac8780f47b4b1904e09",
+      "icon": "icon-licai",
+      "name": "购买理财产品",
+      "type": "expense"
+    },
+    {
+      "_id": "b9887d5189434686b3466e72",
+      "icon": "icon-Shopping",
+      "name": "购物",
+      "type": "expense"
+    },
+    {
+      "_id": "0310bbc943f8402b904a48dd",
+      "icon": "icon-gongzitiaoicon1x",
+      "name": "工资",
+      "type": "income"
+    }
+  ]
+}
