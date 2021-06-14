@@ -1,5 +1,6 @@
 class Utils {
   static resetRequestQuery(query) {
+    // 出现异常不会被catch,需要包装成Promise返回?
     // 1. 初始化pageInfo
     const pageInfo = {
       page: 1,

@@ -1,11 +1,14 @@
 class InitManager {
   static initCore(app) {
     InitManager.app = app;
+    InitManager.loadConfig();
     InitManager.initHttp();
     InitManager.initCors();
     InitManager.initMongoose();
+    InitManager.initAuth();
     InitManager.initRoutes();
     InitManager.initCategories();
+    InitManager.loadException();
   }
 
   /**
@@ -23,20 +26,26 @@ class InitManager {
   static initCors() {
     InitManager.app.all("*", (req, res, next) => {
       res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Content-Type");
-      res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-      res.header("X-Powered-By", " 3.2.1");
+      res.header("Access-Control-Allow-Headers", "*");
+      res.header("Access-Control-Allow-Methods", "*");
       res.header("Content-Type", "application/json;charset=utf-8");
-      next();
+      next()
     });
+  }
+
+  static initAuth() {
+    const jwtAuth = require(`${process.cwd()}/middlewares/jwtAuth`)
+    InitManager.app.use(jwtAuth)
   }
 
   /**
    * 设置路由
    */
   static initRoutes() {
-    const routes = require(`${process.cwd()}/routes/v1`);
-    routes(InitManager.app);
+    const routesV1 = require(`${process.cwd()}/routes/v1`);
+    const routesV2 = require(`${process.cwd()}/routes/v2`);
+    routesV1(InitManager.app);
+    routesV2(InitManager.app);
   }
 
   /**
@@ -45,9 +54,8 @@ class InitManager {
   static initMongoose() {
     const mongoose = require("mongoose");
     mongoose.set("useFindAndModify", false);
-    // const IP = "42.192.49.233"
-    const IP = "localhost"
-    const mongoDB = `mongodb://${IP}/money_tracing`;
+    const url = global.config.db.url
+    const mongoDB = url;
     mongoose.connect(mongoDB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -69,6 +77,17 @@ class InitManager {
         })
       }
     }
+  }
+
+  static loadConfig(path = '') {
+    const configPath = path || process.cwd() + '/config/config.dev.js'
+    const config = require(configPath)
+    global.config = config
+  }
+
+  static loadException() {
+    const errors = require(`${process.cwd()}/utils/errors`)
+    global.errs = errors
   }
 }
 
