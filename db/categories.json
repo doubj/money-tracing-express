@@ -47,6 +47,24 @@
       "icon": "icon-gongzitiaoicon1x",
       "name": "工资",
       "type": "income"
+    },
+    {
+      "_id": "60d3392a276e0000a30016a2",
+      "icon": "icon-yule",
+      "name": "娱乐",
+      "type": "expense"
+    },
+    {
+      "_id": "60d33950276e0000a30016a3",
+      "icon": "icon-shouru",
+      "name": "其他",
+      "type": "income"
+    },
+    {
+      "_id": "60d3395e276e0000a30016a4",
+      "icon": "icon-licai1",
+      "name": "理财收入",
+      "type": "income"
     }
   ]
 }
