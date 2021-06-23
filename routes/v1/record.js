@@ -1,25 +1,23 @@
 const express = require("express");
 const Record = require(`${process.cwd()}/models/record`);
 const Utils = require(`${process.cwd()}/utils`)
-const mongoose = require('mongoose')
 
 var route = express.Router();
 
-route.get("/", async (req, res, next) => {
+route.get("/", async (req, res) => {
   const { where, page, limit } = Utils.resetRequestQuery(req.query);
   const list = await Record.find(where)
     .skip((page - 1) * limit)
     .limit(limit)
     .sort("-date -timestamp")
     .populate('category')
-    .exec()
-    .catch(err => next(new global.errs.DefaultException(err)));
-  const total = await Record.countDocuments(where).catch(err => next(new global.errs.DefaultException(err)));
+    .exec();
+  const total = await Record.countDocuments(where);
   res.send({ list, total });
 });
 
-route.get("/total", async (req, res, next) => {
-  const records = await Record.find({}).populate("category").exec().catch(err => next(new global.errs.DefaultException(err)));
+route.get("/total", async (req, res) => {
+  const records = await Record.find({}).populate("category").exec();
   let balance = 0;
   records.forEach((record) => {
     balance =
@@ -28,33 +26,32 @@ route.get("/total", async (req, res, next) => {
   res.send({ balance });
 });
 
-route.get("/description", async (req, res, next) => {
-  const { where, limit } = Utils.resetRequestQuery(req.query);
-  const list = await Record.find(where, 'description cid')
-    .limit(limit)
-    .sort("-date")
-    .exec()
-    .catch(err => next(new global.errs.DefaultException(err)));
-  res.send(list);
-});
+// route.get("/description", async (req, res) => {
+//   const { where, limit } = Utils.resetRequestQuery(req.query);
+//   const list = await Record.find(where, 'description cid')
+//     .limit(limit)
+//     .sort("-date")
+//     .exec();
+//   res.send(list);
+// });
 
-route.post("/", async (req, res, next) => {
+route.post("/", async (req, res) => {
   const record = new Record({ ...req.body, category: req.body.category.id });
-  const { id } = await record.save().catch(err => next(new global.errs.DefaultException(err)));
+  const { id } = await record.save();
   res.status(201).send({ ...req.body, id });
 });
 
-route.put("/:id", async (req, res, next) => {
+route.put("/:id", async (req, res) => {
   await Record.findByIdAndUpdate(req.params.id, {
     ...req.body,
     category: req.body.category.id
-  }).catch(err => next(new global.errs.DefaultException(err)));
+  });
   res.status(204).send();
 });
 
-route.delete("/:ids", async (req, res, next) => {
+route.delete("/:ids", async (req, res) => {
   const ids = req.params.ids.split(",");
-  await Record.deleteMany({ _id: { $in: ids } }).catch(err => next(new global.errs.DefaultException(err)));
+  await Record.deleteMany({ _id: { $in: ids } });
   res.status(204).send();
 });
 

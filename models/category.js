@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema({
-  _id: { type: Schema.Types.ObjectId, require: true },
   icon: { type: String, required: true, max: 10 },
   name: { type: String, required: true, max: 255 },
   type: {

@@ -7,7 +7,6 @@ const RecordSchema = new Schema({
   price: { type: Number, required: true },
   description: { type: String, required: true, max: 500 },
   timestamp: { type: Number, required: true },
-  // cid: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
 });
 

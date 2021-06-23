@@ -1,4 +1,5 @@
 const express = require("express");
+require('express-async-errors');
 const errorCatch = require(`${process.cwd()}/middlewares/errorCatch`)
 const app = express();
 

@@ -5,7 +5,7 @@ class InitManager {
     InitManager.initHttp();
     InitManager.initCors();
     InitManager.initMongoose();
-    InitManager.initAuth();
+    // InitManager.initAuth();
     InitManager.initRoutes();
     InitManager.initCategories();
     InitManager.loadException();
@@ -43,9 +43,7 @@ class InitManager {
    */
   static initRoutes() {
     const routesV1 = require(`${process.cwd()}/routes/v1`);
-    const routesV2 = require(`${process.cwd()}/routes/v2`);
     routesV1(InitManager.app);
-    routesV2(InitManager.app);
   }
 
   /**

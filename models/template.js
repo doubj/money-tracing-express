@@ -7,7 +7,6 @@ const TemplateSchema = new Schema({
   description: { type: String, required: true, max: 500 },
   remark: { type: String, required: false, max: 500 },
   timestamp: { type: Number, required: true },
-  // cid: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
 });
 

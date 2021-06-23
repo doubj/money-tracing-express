@@ -7,7 +7,7 @@ class DefaultException extends Error {
   }
 }
 
-class LoginException extends Error {
+class LoginException extends DefaultException {
   constructor(message, code) {
       super()
       this.code = code || 10004
