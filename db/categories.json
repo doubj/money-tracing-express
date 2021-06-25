@@ -65,6 +65,12 @@
       "icon": "icon-licai1",
       "name": "理财收入",
       "type": "income"
+    },
+    {
+      "_id": "60d5bc8e4575000073003cc2",
+      "icon": "icon-zhangdan",
+      "name": "月度账单",
+      "type": "income"
     }
   ]
 }
