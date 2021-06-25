@@ -5,7 +5,7 @@ class InitManager {
     InitManager.initHttp();
     InitManager.initCors();
     InitManager.initMongoose();
-    // InitManager.initAuth();
+    InitManager.initAuth();
     InitManager.initRoutes();
     InitManager.initCategories();
     InitManager.loadException();
