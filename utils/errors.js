@@ -8,8 +8,9 @@ class DefaultException extends Error {
 }
 
 class LoginException extends DefaultException {
-  constructor(message, code) {
+  constructor(message, code, name) {
       super()
+      this.name = name || "UserCheckError"
       this.code = code || 10004
       this.status = 401
       this.message = message || '登录失效，请重新登录！'

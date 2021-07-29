@@ -28,6 +28,9 @@ const showError = (name, error, res) => {
       }
       errorTemp = new global.errs.LoginException(msg)
       break;
+    case 'UserCheckError' :
+      errorTemp = new global.errs.LoginException(error.message)
+      break;
     default :
       errorTemp = new global.errs.DefaultException()
   }
